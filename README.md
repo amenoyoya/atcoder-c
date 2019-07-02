@@ -27,3 +27,29 @@ AtCoder: https://atcoder.jp/
 - Set environmental variable `PATH`
     - `Win + Pause/Break` => システム > システムの詳細設定 > 環境変数
         - e.g. `C:\MinGW\bin`
+
+***
+
+## Test run
+
+### Create sample C++ program
+- **00.APG4b/sample01.cpp**
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+
+    int main() {
+        cout << "Hello, world!" << endl;
+        return 0;
+    }
+    ```
+- Compile `sample01.cpp`
+    ```bash
+    $ cd 00.APG4b
+    $ gcc sample01.cpp -lstdc++ -o sample01.exe
+    ```
+- Execute `sample01.exe`
+    ```bash
+    $ ./sample01
+    Hello, world!
+    ```
