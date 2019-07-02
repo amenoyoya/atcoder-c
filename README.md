@@ -13,8 +13,17 @@ AtCoder: https://atcoder.jp/
 ## Setup
 
 ### Environment
-- OS: Windows 10
-- Compiler: Gnu C++ Compiler `8.2.0` by MinGW
+- OS:
+    - Windows 10
+- Editor:
+    - VSCode: `1.35.1`
+- Terminal:
+    - Bash (by Git for Windows)
+- CLI:
+    - nodejs: `10.15.3`
+    - yarn (package manager): `1.15.2`
+- Compiler:
+    - Gnu C++ Compiler (by MinGW): `8.2.0`
 
 ---
 
@@ -27,6 +36,27 @@ AtCoder: https://atcoder.jp/
 - Set environmental variable `PATH`
     - `Win + Pause/Break` => システム > システムの詳細設定 > 環境変数
         - e.g. `C:\MinGW\bin`
+- **compile.js** (for launching gcc compiler)
+    ```javascript
+    const exec = require('child_process').execSync;
+    
+    (() => {
+      if (process.argv.length-2 === 0) {
+        console.log('Please set compiling target');
+        return 0;
+      }
+      const res = exec('gcc "' + process.argv[2] + '.cpp" -lstdc++ -o "' + process.argv[2] + '.exe"');
+      console.log(res.toString());
+    })();
+    ```
+- **package.json** (for npm script)
+    ```json
+    {
+        "scripts": {
+            "build": "node compile.js"
+        }
+    }
+    ```
 
 ***
 
@@ -45,11 +75,13 @@ AtCoder: https://atcoder.jp/
     ```
 - Compile `sample01.cpp`
     ```bash
-    $ cd 00.APG4b
-    $ gcc sample01.cpp -lstdc++ -o sample01.exe
+    # call package.json:scripts.build
+    ## => node compile.js $1
+    ## => gcc "$1.cpp" -lstdc++ -o "$1.exe"
+    $ yarn build 00.APG4b/sample01
     ```
 - Execute `sample01.exe`
     ```bash
-    $ ./sample01
+    $ ./00.APG4b/sample01
     Hello, world!
     ```
