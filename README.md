@@ -24,18 +24,25 @@ AtCoder: https://atcoder.jp/
     - yarn (package manager): `1.15.2`
 - Compiler:
     - Gnu C++ Compiler (by MinGW): `8.2.0`
+    - Clang: `8.0.0`
 
 ---
 
 ### Setup
 - Download installer from https://jaist.dl.osdn.jp/mingw/68260/mingw-get-setup.exe
-- Execute installer
-    - [x] mingw32-base
-    - [x] mingw32-gcc-g++
-    - => Toolbar > Installation > Apply Changes
-- Set environmental variable `PATH`
-    - `Win + Pause/Break` => システム > システムの詳細設定 > 環境変数
-        - e.g. `C:\MinGW\bin`
+    - Execute installer
+        - [x] mingw32-base
+        - [x] mingw32-gcc-g++
+        - => Toolbar > Installation > Apply Changes
+    - Set environmental variable `PATH`
+        - `Win + Pause/Break` => システム > システムの詳細設定 > 環境変数
+            - e.g. `C:\MinGW\bin`
+- Download installer form http://releases.llvm.org/8.0.0/LLVM-8.0.0-win64.exe
+    - Execute installer
+        - Install directory: recommendation is `C:\LLVM`
+    - Set environmental variable `PATH`
+        - `Win + Pause/Break` => システム > システムの詳細設定 > 環境変数
+            - e.g. `C:\LLVM\bin`
 - **compile.js** (for launching gcc compiler)
     ```javascript
     const exec = require('child_process').execSync;
