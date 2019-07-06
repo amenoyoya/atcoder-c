@@ -14,48 +14,41 @@ AtCoder: https://atcoder.jp/
 
 ### Environment
 - OS:
-    - Windows 10
+    - Windows 10 Pro
 - Editor:
-    - VSCode: `1.35.1`
-- Terminal:
-    - Bash (by Git for Windows)
-- CLI:
-    - nodejs: `10.15.3`
-    - yarn (package manager): `1.15.2`
-- Compiler:
-    - Gnu C++ Compiler (by MinGW): `8.2.0`
+    - VSCode: `1.36.0`
+- Docker:
+    - Docker for Windows
+- Docker Containers:
+    - app: FROM `alpine:8.3`
+        - Gnu C++ Compiler: `9.1.0`
+        - nodejs: `8.14.0`
+        - yarn (package manager): `1.16.0`
 
 ---
 
 ### Setup
-- Download installer from https://jaist.dl.osdn.jp/mingw/68260/mingw-get-setup.exe
-- Execute installer
-    - [x] mingw32-base
-    - [x] mingw32-gcc-g++
-    - => Toolbar > Installation > Apply Changes
-- Set environmental variable `PATH`
-    - `Win + Pause/Break` => システム > システムの詳細設定 > 環境変数
-        - e.g. `C:\MinGW\bin`
-- **compile.js** (for launching gcc compiler)
-    ```javascript
-    const exec = require('child_process').execSync;
-    
-    (() => {
-      if (process.argv.length-2 === 0) {
-        console.log('Please set compiling target');
-        return 0;
-      }
-      const res = exec('gcc "' + process.argv[2] + '.cpp" -lstdc++ -o "' + process.argv[2] + '.exe"');
-      console.log(res.toString());
-    })();
-    ```
-- **package.json** (for npm script)
-    ```json
-    {
-        "scripts": {
-            "build": "node compile.js"
-        }
-    }
+- Enable Hyper-V
+    - Run PowerShell as Administrator
+        ```powershell
+        > Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+        ```
+    - Restart Windows system
+- Download **Docker for Windows** from: https://docs.docker.com/docker-for-windows/
+    - Need to registrate
+- Install Docker for Windows
+- Prepare Docker container image: `alpine-node-gcc:9.1.0`
+    - Run `cmd.exe`
+        ```bash
+        # Combine tar files
+        > copy /b alpine-node-gcc.9.1.0_src\alpine-node-gcc.9.1.0.tar_* alpine-node-gcc.9.1.0.tar
+
+        # Load Docker image
+        > docker load < alpine-node-gcc.9.1.0.tar
+        ```
+- Build up Docker containers
+    ```bash
+    > docker-compose up
     ```
 
 ***
@@ -63,7 +56,7 @@ AtCoder: https://atcoder.jp/
 ## Test run
 
 ### Create sample C++ program
-- **00.APG4b/sample01.cpp**
+- **app/00.APG4b/sample01.cpp**
     ```cpp
     #include <bits/stdc++.h>
     using namespace std;
@@ -75,13 +68,19 @@ AtCoder: https://atcoder.jp/
     ```
 - Compile `sample01.cpp`
     ```bash
+    # Attach to Docker container: app
+    $ docker-compose exec app ash
+
     # call package.json:scripts.build
     ## => node compile.js $1
-    ## => gcc "$1.cpp" -lstdc++ -o "$1.exe"
-    $ yarn build 00.APG4b/sample01
+    ## => gcc "$1.cpp" -lstdc++ -o "$1"
+    % yarn build 00.APG4b/sample01
     ```
-- Execute `sample01.exe`
+- Execute `sample01`
     ```bash
-    $ ./00.APG4b/sample01
+    # In Docker container: app
+
+    # Execute
+    % ./00.APG4b/sample01
     Hello, world!
     ```
